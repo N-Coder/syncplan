@@ -186,6 +186,9 @@ int main(int argc, char* argv[]) {
 	case Method::ILP:
 		result = solveILP(CG, G, timeout);
 		break;
+	default:
+		Logger::slout(Logger::Level::Alarm) << "Invalid Options: Invalid method!" << std::endl;
+		return ERROR_OPTIONS;
 	}
 
 	std::cerr << result << std::endl;

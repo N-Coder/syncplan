@@ -213,7 +213,11 @@ PQPlanarity::Result PQPlanarity::batchSPQR() {
 
 				if (p.both_block) {
 					PQ_PROFILE_START("batchSPQR-simplify")
-					r = simplify(p.other_vertex, embtrees.makeTree(p.other_vertex));
+					NodePCRotation* pc = embtrees.makeTree(p.other_vertex);
+					r = INVALID_INSTANCE;
+					if (pc != nullptr) {
+						r = simplify(p.other_vertex, pc);
+					}
 					PQ_PROFILE_STOP("batchSPQR-simplify")
 					if (r == INVALID_INSTANCE) {
 						RETURN_INVALID

@@ -51,6 +51,9 @@ struct SimpleSPQRTree {
 
 	~SimpleSPQRTree() {
 		for (auto ptr : skel_array) {
+			if (!ptr) {
+				continue;
+			}
 			ptr->breakLinkForMasterDeconstruction();
 			delete ptr;
 		}

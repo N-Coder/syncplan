@@ -128,7 +128,7 @@ void SimpleSPQRTree::init() {
 		}
 	}
 	OGDF_ASSERT(!planar || virtual_edges == 0);
-	OGDF_ASSERT(real_edges == edgecnt);
+	OGDF_ASSERT(!planar || real_edges == edgecnt);
 }
 
 OverlappingGraphCopy* SimpleSPQRTree::getNonSSkel(node GC_n) const {
