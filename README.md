@@ -1,4 +1,4 @@
-<img src="doc/syncplan.svg" style="float: right" title="Schematic of a Synchronized Planarity instance." />
+<img src="doc/syncplan.svg" align="right" title="Schematic of a Synchronized Planarity instance." />
 
 # Synchronized Planarity
 This repository contains a C++ implementation of the quadratic-time Synchronized Planarity
@@ -8,7 +8,7 @@ and we seek a planar embedding where the rotations of paired vertices line up un
 This can be used to efficiently solve various Constrained Planarity variants,
 with reductions from Clustered Planarity and Connected SEFE provided here (see the Figure below).
 
-<p style="text-align: center">
+<p align="center">
 <img src="doc/schema.svg" alt="Shows various Constrained Planarity Variants and how they reduce to Synchronized Planarity." title="Schema of Constrained Planarity Variants"/>
 </p>
 
@@ -43,10 +43,10 @@ while boolean flags on `PQPlanarity` allow toggling various other optional behav
 See the main functions of one of the executables, e.g. [profile-pqplan](src/exec/profile-pqplan.cpp), for usage
 examples.
 
-<table style="width: 100%; text-align: center">
-<tr><td><img alt="Operation EncapsulateAndJoin aka Contract" src="doc/syncplan-contract.svg"/></td></tr>
-<tr><td><img alt="Operation PropagatePQ" src="doc/syncplan-propagate.svg"/></td></tr>
-<tr><td><img alt="Operation Simplify" src="doc/syncplan-simplify.svg"/></td></tr>
+<table width="100%" align="center">
+<tr><td align="center"><img alt="Operation EncapsulateAndJoin aka Contract" src="doc/syncplan-contract.svg"/></td></tr>
+<tr><td align="center"><img alt="Operation PropagatePQ" src="doc/syncplan-propagate.svg"/></td></tr>
+<tr><td align="center"><img alt="Operation Simplify" src="doc/syncplan-simplify.svg"/></td></tr>
 <tr><td>
 
 Operations [Encapsulate](src/operation/Encapsulate.cpp)AndJoin aka [Contract](src/operation/Contract.cpp), [PropagatePQ](src/operation/Propagate.cpp) and [Simplify](src/operation/Simplify.cpp)
