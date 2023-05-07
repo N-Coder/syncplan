@@ -32,7 +32,7 @@ mkdir -p "instances-sefe"
 for f in $files; do
   for d in 0.25 0.5 0.75 1; do
     for s in 111111111 222222222 333333333; do
-      # XXX update $cnt when chaning the number of iterations made here
+      # XXX update $cnt when changing the number of iterations made here
       [[ $f =~ -n([0-9]+)- ]]
       n=${BASH_REMATCH[1]}
       [[ $f =~ -e([0-9]+)- ]]

@@ -34,7 +34,7 @@ mkdir -p "instances-pq"
 for f in $files; do
   for d in 0.05 0.1 0.2; do
     for s in 111111111 222222222 333333333; do
-      # XXX update $cnt when chaning the number of iterations made here
+      # XXX update $cnt when changing the number of iterations made here
       [[ $f =~ -n([0-9]+)- ]]
       n=${BASH_REMATCH[1]}
       a=$(python3 -c "print(int($d * $n))")
