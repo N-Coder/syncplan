@@ -180,12 +180,14 @@ export OGDF_BUILD_DIR="/root/ogdf/build-debug" # used by ogdf-python
 export SP_PLOT_DIR="/root/plots" # output directory
 export SP_MONGO_URL="mongodb://sp-mongo:27017/?directConnection=true"
 export SP_MONGO_DB="syncplan" # name of DB
-export SP_TOOLS_DIR="/ro$SP_TOOLS_DIR"
+export SP_TOOLS_DIR="/root/syncplan/tools"
 export SP_BUILD_DIR="/root/syncplan/build-release"
 
-# download some of our datasets
+# now lets work on the datasets
 mkdir datasets
 cd datasets
+
+# download some of our datasets
 wget -O dsold.tar.gz https://zenodo.org/record/7896022/files/dsold.tar.gz?download=1
 tar -xaf dsold.tar.gz
 # yields index-dsold.csv for directory dsold/
