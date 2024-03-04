@@ -56,6 +56,10 @@ add_executable(random-cplan src/exec/random-cplan.cpp ${SOURCE_FILES})
 target_include_directories(random-cplan PRIVATE include lib)
 target_link_libraries(random-cplan PCTree OGDF bigInt)
 
+add_executable(random-lplan src/exec/random-lplan.cpp ${SOURCE_FILES})
+target_include_directories(random-lplan PRIVATE include lib)
+target_link_libraries(random-lplan PCTree OGDF bigInt)
+
 add_executable(random-pqplan src/exec/random-pqplan.cpp ${SOURCE_FILES})
 target_include_directories(random-pqplan PRIVATE include lib)
 target_link_libraries(random-pqplan PCTree OGDF bigInt)
