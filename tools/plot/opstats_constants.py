@@ -70,7 +70,7 @@ NAMES = {
     "BATCH_SPQR:SIMPLIFY_TRANSITIVE.pc_time": "ET: Simplify(transitive)",
 
     "embed-PQPlanarity::ResetIndices.op_time": "ResetIndices",
-    "embed-UndoInitCluster.op_time": "Undo Reduce from Cluster",
+    "embed-UndoInitCluster.op_time": "Undo Reduction",
     "embed-UndoConvertSmall.op_time": "Undo ConvertSmall",
     "embed-UndoMakeWheel.op_time": "Undo MakeWheel",
     "embed-UndoEncapsulate.op_time": "Undo Encapsulate",

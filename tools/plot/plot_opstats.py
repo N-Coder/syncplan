@@ -74,6 +74,7 @@ for sname, selection in {
     timesm = times.filter(regex="_ns|_time", axis=1).reset_index(names="idx").melt(id_vars=["idx"])
 
     fig, axs = plt.subplots(5, 1)
+    char = "a"
     for (group, vals), ax in zip(GROUPS.items(), axs):
         if group not in times: continue
         print(f"OPstats{sname} {group}")
@@ -99,11 +100,16 @@ for sname, selection in {
             tt = t.get_text()
             t.set_text(NAMES.get(tt, tt) if not tt.endswith("-overhead") else "Overhead")
         if group == "all":
-            ax.get_legend().set_title("Algorithm Step")
+            ax.get_legend().set_title("(%s) Algorithm Step" % char)
         else:
-            ax.get_legend().set_title("Step of " + NAMES.get(group, group))
+            ax.get_legend().set_title("(%s) Step of %s" % (char, NAMES.get(group, group)))
+        char = chr(ord(char) + 1)
         ax.set_xlabel("")
         ax.set_ylabel("Time")
+
+        # ax.xaxis.grid(True, which='major')
+        ax.yaxis.grid(True, which='major')
+        ax.set_axisbelow(True)
 
         # ax.figure.set_size_inches(10, 3)
         # ax.figure.tight_layout()
@@ -114,6 +120,7 @@ for sname, selection in {
     fig.tight_layout(h_pad=1)
     fig.savefig(f"{OUT_DIR}/{name}-groups{sname}.pdf")
     fig.clear()
+    plt.close(fig)
 
 # %%
 

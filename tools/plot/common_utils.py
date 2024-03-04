@@ -2,8 +2,10 @@ import os
 import re
 from itertools import cycle
 
-OUT_DIR = os.getenv("SP_PLOT_DIR")
-os.makedirs(OUT_DIR, exist_ok=True)
+OUT_DIR = os.getenv("SP_PLOT_DIR", "plot")
+
+if not os.path.isdir(OUT_DIR):
+    raise ValueError(f"$SP_PLOT_DIR ({OUT_DIR}) must be a directory")
 
 
 def format_ns(ns, ign=None):
@@ -24,8 +26,10 @@ def format_ms(ms, ign=None):
         return f"{ms:.2f}".rstrip("0").rstrip(".") + "ms"
     elif abs(ms) < 60_000:
         return f"{ms / 1000:.2f}".rstrip("0").rstrip(".") + "s"
-    elif abs(ms) < 60 * 60_000:
+    elif abs(ms) < 6 * 60_000:
         return f"{ms / 60_000:.2f}".rstrip("0").rstrip(".") + "min"
+    elif abs(ms) < 60 * 60_000:
+        return f"{ms / 60_000:.1f}".rstrip("0").rstrip(".") + "min"
     else:
         return f"{ms / 60 / 60_000:.2f}".rstrip("0").rstrip(".") + "h"
 
@@ -102,37 +106,61 @@ def col_idx(col):
 
 # %%
 
-RT_CLUSTERS = [
-    ["PQPlanarity-b-s", "PQPlanarity-c-i-b-s", "PQPlanarity-p"],
-    [
-        "PQPlanarity-r",
-        "PQPlanarity-a",
-        "PQPlanarity-b",
-        "PQPlanarity",
-        "PQPlanarity-i",
-        "PQPlanarity-b-s",  # last is ref
-    ], [
-        "PQPlanarity-c",
-        "PQPlanarity-c-i-r",
-        "PQPlanarity-c-i-a",
-        "PQPlanarity-c-i",
-        "PQPlanarity-c-i-b",
-        "PQPlanarity-c-i-b-s",  # last is ref
-    ], [
-        "PQPlanarity-p-b-s",
-        "PQPlanarity-p-b-s-c",
-        "PQPlanarity-p-b-s-i",
-        "PQPlanarity-p-b-s-c-i",
+RT_CLUSTERS = {
+    "overview": [
+        "PQPlanarity-i",  # "SP[d b]" # join blocks
+        "PQPlanarity-c",  # "SP[d i]" # intersect
+        "PQPlanarity-p-c-i",  # "SP[d s]"
+        "PQPlanarity-p",  # "SP[d bis]"
+        "PQPlanarity-c-i",  # "SP[d]" # baseline
+    ],
+    "order": [
+        "PQPlanarity-c-i-r",  # "SP[r]" # random
+        "PQPlanarity-c-i-a",  # "SP[a]" # ascending degree
+        "PQPlanarity-c-i-b",  # "SP[d+c]" # descending, contract first
+        "PQPlanarity-c-i-b-s",  # "SP[d-c]" # descending, contract last
+        "PQPlanarity-c-i",  # "SP[d]" # baseline
+    ],
+    "blocks": [
+        "PQPlanarity",  # "SP[d bi]"
+        "PQPlanarity-i",  # "SP[d b]" # join blocks
+        "PQPlanarity-c",  # "SP[d i]" # intersect
+        "PQPlanarity-c-i",  # "SP[d]" # baseline
+    ],
+    "spqr": [
+        "PQPlanarity-p-c-i",  # "SP[d s]"
+        "PQPlanarity-c-i",  # "SP[d]" # baseline
+    ],
+    "spqr-blocks": [
+        "PQPlanarity-c-i",  # "SP[d]"
+        "PQPlanarity-p",
         "PQPlanarity-p-i",
-        "PQPlanarity-p-b-i",
         "PQPlanarity-p-c",
-        "PQPlanarity-p-b-c-i",
-        "PQPlanarity-p-b-c",
-        "PQPlanarity-p-c-i",
-        "PQPlanarity-p-b",
-        "PQPlanarity-p",  # last is ref
-    ]
-]
+        "PQPlanarity-p-c-i",  # last is ref
+    ],
+    # "spqr-blocks-order":
+    #     "PQPlanarity-c-i",  # "SP[d]"
+    #
+    #     "PQPlanarity-p-b-s",
+    #     "PQPlanarity-p-b-s-i",
+    #     "PQPlanarity-p-b-s-c",
+    #     "PQPlanarity-p-b-s-c-i",
+    #
+    #     "PQPlanarity-p-b",
+    #     "PQPlanarity-p-b-i",
+    #     "PQPlanarity-p-b-c",
+    #     "PQPlanarity-p-b-c-i",
+    #
+    #     "PQPlanarity-p",
+    #     "PQPlanarity-p-i",
+    #     "PQPlanarity-p-c",
+    #     "PQPlanarity-p-c-i",  # last is ref
+    # ]
+}
+
+MODE_FILTER = set(sum(RT_CLUSTERS.values(), []))
+RT_CLUSTERS["all"] = [m for m in MODE_FILTER if m != "PQPlanarity-c-i"] + ["PQPlanarity-c-i"]
+RT_CLUSTERS["first-3"] = RT_CLUSTERS["order"] + RT_CLUSTERS["blocks"] + RT_CLUSTERS["spqr"]
 
 # %%
 
@@ -140,12 +168,12 @@ MODES = {
     "CConnected": "CCon", "HananiTutte": "HT", "HananiTutte-f": "HT-f", "ILP": "ILP",
 
     # batch SPQR, by degree / contract first
-    "PQPlanarity": "SP[d bi]", "PQPlanarity-p": "SP[d bis]", "PQPlanarity-p-b": "SP[d+c bis]",
+    "PQPlanarity": "SP[d bi]", "PQPlanarity-p": "SP[s bi]", "PQPlanarity-p-b": "SP[d+c bis]",
     "PQPlanarity-p-b-s": "SP[d-c bis]",
 
     # no contract bicon-bicon and / or intersect PQ trees
     "PQPlanarity-c": "SP[d i]", "PQPlanarity-i": "SP[d b]", "PQPlanarity-c-i": "SP[d]",
-    "PQPlanarity-p-c": "SP[d is]", "PQPlanarity-p-i": "SP[d bs]", "PQPlanarity-p-c-i": "SP[d s]",
+    "PQPlanarity-p-c": "SP[s i]", "PQPlanarity-p-i": "SP[s b]", "PQPlanarity-p-c-i": "SP[s]",
     "PQPlanarity-p-b-c": "SP[d+c is]", "PQPlanarity-p-b-i": "SP[d+c bs]", "PQPlanarity-p-b-c-i": "SP[d+c s]",
     "PQPlanarity-p-b-s-c": "SP[d-c is]", "PQPlanarity-p-b-s-i": "SP[d-c bs]", "PQPlanarity-p-b-s-c-i": "SP[d-c s]",
 
@@ -197,7 +225,7 @@ for ptype, ptype_name in PTYPES.items():
 
 def get_label(l: str):
     if l.endswith("-frac"):
-        return "Overhead over Baseline"
+        return "Relative Runtime"
     if l in LABELS:
         return LABELS[l]
     l = l.removeprefix("stats.")

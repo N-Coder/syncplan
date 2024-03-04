@@ -25,6 +25,8 @@ if "SP_MAX_IDX" in os.environ:
 if "-med" in name or "dsold" in name:
     print("Ignoring PQPlanarity and only using PQPlanarity-c-i")
     filter["mode"] = {"$ne": "PQPlanarity"}
+elif MODE_FILTER:
+    filter["mode"] = {"$in": list(MODE_FILTER)}
 df["density"] = df["edges"] / df["nodes"]
 
 # %%

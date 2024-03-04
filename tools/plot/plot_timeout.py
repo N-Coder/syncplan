@@ -41,6 +41,6 @@ if "TO" in tofrac:
         h.set_linewidth(2)
     ax.figure.set_size_inches(7, 4)
     ax.figure.tight_layout()
-    ax.get_legend().set_visible(False)
-    ax.figure.savefig(f"{OUT_DIR}/{name}-timedout-frac.png")
+    # ax.get_legend().set_visible(False)
+    ax.figure.savefig(f"{OUT_DIR}/{name}-timedout-frac.pdf")
     ax.figure.clear()

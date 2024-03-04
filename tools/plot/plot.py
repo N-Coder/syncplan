@@ -1,8 +1,14 @@
 import common
-import plot_dsold
-import plot_rt
-import plot_timeout
-import plot_binom_test
+
+if "-dsold" in common.name or "-med" in common.name:
+    import plot_dsold
+else:  # if "-large" in common.name or "-instances" in common.name:
+    import plot_rt
+    import plot_timeout
+    import plot_binom_test
+
+if "-dsold" in common.name:
+    import plot_meds
 
 if "opstats" in common.dfm:
     import plot_opstats
@@ -10,6 +16,7 @@ if "opstats" in common.dfm:
 __all__ = [
     "common",
     "plot_dsold",
+    "plot_meds",
     "plot_rt",
     "plot_timeout",
     "plot_binom_test",
@@ -17,4 +24,5 @@ __all__ = [
 ]
 
 import matplotlib.pyplot as plt
+
 plt.close("all")

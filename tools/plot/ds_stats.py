@@ -12,6 +12,7 @@ DATASETS = {
     "index-clusters-large.csv": "\dslarge",
     "index-instances-sefe.csv": "\dssefe",
     "index-instances-pq.csv": "\dspq",
+    "index-level-plan.csv": "\dslvl",
 }
 
 for file, ds_name in DATASETS.items():

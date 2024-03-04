@@ -58,6 +58,8 @@ ax.yaxis.set_major_formatter(format_ns)
 ax.set_xlim(-50, 2500)
 ax.set_ylabel("")
 ax.set_xlabel("# Cluster-Edge Crossings")
+ax.xaxis.grid(True, which='major')
+ax.yaxis.grid(True, which='major')
 
 legend = {
     "Mode": Patch(color='none', label='Mode'),
@@ -72,5 +74,5 @@ ax.legend(list(legend.values()), list(legend.keys()))
 
 ax.figure.set_size_inches(6, 4)
 ax.figure.tight_layout()
-ax.figure.savefig(OUT_DIR + "/plot-meds.png")
+ax.figure.savefig(OUT_DIR + "/plot-meds.pdf")
 ax.figure.clear()
