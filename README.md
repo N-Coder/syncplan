@@ -127,8 +127,11 @@ additionally printing runtime profiling data in JSON format.</dd>
 <dd>Generate a random clustering on the given graph using one of three different generators
 (two OGDF generators that mostly yield no-instances, and our own yes-instance generator).</dd>
 
+<dt><a href="src/exec/random-lplan.cpp">random-lplan</a></dt>
+<dd>Generate a random (radial) level planar graph and reduce it to an instance of synchronized planarity.</dd>
+
 <dt><a href="src/exec/random-pqplan.cpp">random-pqplan</a></dt>
-<dd>Generate random pipes on the given graph using one of three different generators
+<dd>Generate random pipes on the given graph using one of two different generators
 (match up random vertices or use the reduction from a random SEFE instance).</dd>
 </dl>
 Note that when flag `PQ_OPSTATS` is defined (the default), an additional file with per-operation
@@ -144,7 +147,7 @@ To simplify the reproduction of our results, both can also be provided via Docke
 running our evaluation on the larger instances in the larger datasets can take a very long time when not parallelized on
 a cluster.
 The [tools](tools) directory contains many scrips helping with automating the evaluation,
-see the following for their usage.
+see the following for examples of their usage.
 The following bash commands set up MongoDB and Slurm within Docker containers, run the build,
 generate some test data and perform the evaluation on a small data set, yielding the plot shown below.
 
