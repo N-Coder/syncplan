@@ -1,6 +1,13 @@
 <img src="doc/syncplan.svg" align="right" title="Schematic of a Synchronized Planarity instance." />
 
 # Synchronized Planarity
+
+> [!NOTE]
+> This code has been [merged into](https://github.com/ogdf/ogdf/blob/master/include/ogdf/cluster/sync_plan/SyncPlan.h) the OGDF master branch, see also its documentation [here](https://ogdf.netlify.app/classogdf_1_1sync__plan_1_1_sync_plan.html).
+> To use it, either directly build the OGDF master branch or use any OGDF release newer than `elderberry (2023.09)` (which at the point of writing does not exist yet).
+> 
+> This repository is only kept for archival purposes and to still provide the evaluation harness used in the paper.
+
 This repository contains a C++ implementation of the quadratic-time Synchronized Planarity
 algorithm by Bläsius, Fink and Rutter presented at [ESA'21](https://drops.dagstuhl.de/opus/volltexte/2021/14600/).
 In Synchronized Planarity, we are given *pipes* matching pairs of vertices of a graph
